@@ -1,7 +1,6 @@
 from marshmallow import ValidationError, post_load
 from project import ma
 from users.models import UserProfile
-from werkzeug.security import check_password_hash, generate_password_hash
 
 
 class UserProfileSchema(ma.SQLAlchemyAutoSchema):
@@ -22,7 +21,7 @@ class UserSigninSchema(ma.Schema):
         if user is None:
             raise ValidationError({'message': 'User not found'})
 
-        if not check_password_hash(user.password, data['password']):
+        if not user.check_password(data['password']):
             raise ValidationError({'message': 'Password is incorrect'})
 
         return user

@@ -4,10 +4,8 @@ import jwt
 from flask import Blueprint, request
 from flask_restful import Api, Resource
 from project import app as root
-from project import db
 from users.models import UserProfile
 from users.schemas import UserProfileSchema, UserSigninSchema, UserTokenSchema
-from werkzeug.security import generate_password_hash
 
 app = Blueprint('users', __name__)
 api = Api(app)
@@ -18,10 +16,9 @@ class UserSignup(Resource):
 
     def post(self):
         user = self.schema.load(request.get_json())
-        user.password = generate_password_hash(user.password, method='sha256')
+        user.set_password(request.get_json()['password'])
 
-        db.session.add(user)
-        db.session.commit()
+        user.save()
 
         return self.schema.dump(user)
 
