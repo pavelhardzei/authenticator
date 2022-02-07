@@ -1,5 +1,6 @@
+import pyotp
 from applications.models import Application
-from applications.schemas import ApplicationSchema
+from applications.schemas import ApplicationSchema, TotpSchema
 from flask import Blueprint, request
 from flask_restful import Api, Resource
 from project.exceptions import LogicError
@@ -69,5 +70,24 @@ class ApplicationDetail(Resource):
             raise LogicError(403, 'Forbidden')
 
 
+class ApplicationCode(Resource):
+    schema = TotpSchema()
+
+    @token_required
+    def get(self, *args, **kwargs):
+        user = kwargs['user']
+        application = Application.query.filter_by(id=kwargs['id']).first()
+
+        if application is None:
+            raise LogicError(404, 'Resource not found')
+        if application.user_id != user.id:
+            raise LogicError(403, 'Forbidden')
+
+        totp = pyotp.TOTP(application.secret)
+
+        return self.schema.dump({'totp': totp.now()})
+
+
 api.add_resource(ApplicationList, '/')
 api.add_resource(ApplicationDetail, '/<int:id>/')
+api.add_resource(ApplicationCode, '/<int:id>/code/')

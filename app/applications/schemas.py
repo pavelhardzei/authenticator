@@ -8,3 +8,7 @@ class ApplicationSchema(ma.SQLAlchemyAutoSchema):
         fields = ('id', 'name', 'secret')
         load_only = ('secret', )
         load_instance = True
+
+
+class TotpSchema(ma.Schema):
+    totp = ma.String()
