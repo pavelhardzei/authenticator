@@ -15,5 +15,5 @@ migrate = Migrate(app, db, compare_type=True)
 from applications.views import app as applications_app
 from users.views import app as users_app
 
-app.register_blueprint(applications_app, url_prefix='/applications')
+app.register_blueprint(applications_app, url_prefix='/application')
 app.register_blueprint(users_app, url_prefix='/user')
