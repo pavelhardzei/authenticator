@@ -6,7 +6,6 @@ class Application(db.Model):
     name = db.Column(db.String(50), nullable=False)
     secret = db.Column(db.String(50), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user_profile.id'), nullable=False)
-    user = db.relationship('UserProfile', lazy=True, backref=db.backref('applications', lazy=True))
 
     def save(self):
         db.session.add(self)
