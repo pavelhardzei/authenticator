@@ -16,9 +16,8 @@ class ApplicationList(Resource):
     @token_required
     def get(self, *args, **kwargs):
         user = kwargs['user']
-        applcations = Application.query.filter_by(user_id=user.id).all()
 
-        return self.schema.dump(applcations, many=True)
+        return self.schema.dump(user.applications, many=True)
 
     @token_required
     def post(self, *args, **kwargs):
