@@ -3,7 +3,6 @@ from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from project.config import Config
-from project.exceptions import LogicError
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -18,5 +17,3 @@ from users.views import app as users_app
 
 app.register_blueprint(applications_app, url_prefix='/application')
 app.register_blueprint(users_app, url_prefix='/user')
-
-app.register_error_handler(LogicError, None)
