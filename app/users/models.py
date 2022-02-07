@@ -7,6 +7,8 @@ class UserProfile(db.Model):
     email = db.Column(db.String(50), unique=True, nullable=False)
     username = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(100), nullable=False)
+    applications = db.relationship('Application', cascade='all, delete', lazy=True,
+                                   backref=db.backref('user_profile', lazy=True))
 
     def set_password(self, password):
         self.password = generate_password_hash(password, method='sha256')
@@ -16,6 +18,10 @@ class UserProfile(db.Model):
 
     def save(self):
         db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
         db.session.commit()
 
     def __repr__(self):

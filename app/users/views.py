@@ -42,6 +42,31 @@ class UserDetail(Resource):
     def get(self, *args, **kwargs):
         return self.schema.dump(kwargs['user'])
 
+    @token_required
+    def put(self, *args, **kwargs):
+        schema = UserProfileSchema(exclude=('password', ))
+
+        user = schema.load(request.get_json(), instance=kwargs['user'])
+        user.save()
+
+        return self.schema.dump(user)
+
+    @token_required
+    def patch(self, *args, **kwargs):
+        schema = UserProfileSchema(exclude=('password', ), partial=True)
+
+        user = schema.load(request.get_json(), instance=kwargs['user'])
+        user.save()
+
+        return self.schema.dump(user)
+
+    @token_required
+    def delete(self, *args, **kwargs):
+        user = kwargs['user']
+        user.delete()
+
+        return {'message': 'No content'}, 204
+
 
 api.add_resource(UserDetail, '/')
 api.add_resource(UserSignup, '/signup/')
