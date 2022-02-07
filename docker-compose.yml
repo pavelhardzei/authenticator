@@ -1,0 +1,39 @@
+version: "3.9"
+
+volumes:
+  postgres_data:
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .db.env
+  web:
+    build: ./app
+    volumes:
+      - ./app:/opt
+    entrypoint: gunicorn --bind 0.0.0.0:5000 manage:app --reload
+    env_file:
+      - .web.env
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+      - migrations
+  migrations:
+    build: ./app
+    volumes:
+      - ./app:/opt
+    entrypoint: bash -c "sleep 5 && python manage.py db migrate && python manage.py db upgrade"
+    env_file:
+      - .web.env
+    depends_on:
+      - db
+  nginx:
+    build: ./nginx
+    ports:
+      - "1337:80"
+    depends_on:
+      - web
