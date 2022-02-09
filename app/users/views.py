@@ -21,7 +21,7 @@ class UserSignup(Resource):
 
         user.save()
 
-        return self.schema.dump(user)
+        return self.schema.dump(user), 201
 
 
 class UserSignin(Resource):
