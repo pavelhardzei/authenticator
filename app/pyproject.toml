@@ -16,6 +16,7 @@ flask-marshmallow = "^0.14.0"
 marshmallow-sqlalchemy = "^0.27.0"
 pyotp = "^2.6.0"
 PyJWT = "^2.3.0"
+pytest-flask-sqlalchemy = "^1.0.2"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^2.17.0"
