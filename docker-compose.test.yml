@@ -1,0 +1,23 @@
+version: "3.9"
+
+volumes:
+  test_postgres_data:
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - test_postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .db_test.env
+  web:
+    build: ./app
+    volumes:
+      - ./app:/opt
+    entrypoint: bash -c "python manage.py db upgrade && pytest -vv && python manage.py db downgrade"
+    env_file:
+      - .web_test.env
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
