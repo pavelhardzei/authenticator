@@ -1,6 +1,6 @@
 __pycache__/
 .idea/
-migrations/
+*migrations/
 static/
 
 *.env

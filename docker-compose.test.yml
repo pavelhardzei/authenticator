@@ -14,7 +14,7 @@ services:
     build: ./app
     volumes:
       - ./app:/opt
-    entrypoint: bash -c "python manage.py db upgrade && pytest -vv && python manage.py db downgrade"
+    entrypoint: bash -c "python manage.py db upgrade -d test_migrations && pytest -vv && python manage.py db downgrade -d test_migrations"
     env_file:
       - .web_test.env
     ports:
