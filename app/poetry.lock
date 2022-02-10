@@ -520,38 +520,6 @@ Werkzeug = ">=0.7"
 docs = ["sphinx", "sphinx-rtd-theme"]
 
 [[package]]
-name = "pytest-flask-sqlalchemy"
-version = "1.0.2"
-description = "A pytest plugin for preserving test isolation in Flask-SQlAlchemy using database transactions."
-category = "dev"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-Flask-SQLAlchemy = ">=2.3"
-packaging = ">=14.1"
-pytest = ">=3.2.1"
-pytest-mock = ">=1.6.2"
-SQLAlchemy = ">=1.2.2"
-
-[package.extras]
-tests = ["pytest-postgresql"]
-
-[[package]]
-name = "pytest-mock"
-version = "3.7.0"
-description = "Thin-wrapper around the mock package for easier use with pytest"
-category = "dev"
-optional = false
-python-versions = ">=3.7"
-
-[package.dependencies]
-pytest = ">=5.0"
-
-[package.extras]
-dev = ["pre-commit", "tox", "pytest-asyncio"]
-
-[[package]]
 name = "python-dateutil"
 version = "2.8.2"
 description = "Extensions to the standard Python datetime module"
@@ -678,7 +646,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "4e772f73ed071187757caa6f5465a3b0fb98f39ec79862cef8c76bc9c749d724"
+content-hash = "048fef04e802234929a88171dbd81160e02aa3a1660331e28abf8015670ce52b"
 
 [metadata.files]
 alembic = [
@@ -1022,14 +990,6 @@ pytest-factoryboy = [
 pytest-flask = [
     {file = "pytest-flask-1.2.0.tar.gz", hash = "sha256:46fde652f77777bf02dc91205aec4ce20cdf2acbbbd66a918ab91f5c14693d3d"},
     {file = "pytest_flask-1.2.0-py3-none-any.whl", hash = "sha256:fe25b39ad0db09c3d1fe728edecf97ced85e774c775db259a6d25f0270a4e7c9"},
-]
-pytest-flask-sqlalchemy = [
-    {file = "pytest-flask-sqlalchemy-1.0.2.tar.gz", hash = "sha256:34fa0f9a63c3892f54a8d11ab67f907c0e0911ac609e3cff5d518c3af6b897cd"},
-    {file = "pytest_flask_sqlalchemy-1.0.2-py3-none-any.whl", hash = "sha256:19cad31d654c2301dd2dd70d06a62e5dc4ea380500f4b89bbcb3d59a475f0cf6"},
-]
-pytest-mock = [
-    {file = "pytest-mock-3.7.0.tar.gz", hash = "sha256:5112bd92cc9f186ee96e1a92efc84969ea494939c3aead39c50f421c4cc69534"},
-    {file = "pytest_mock-3.7.0-py3-none-any.whl", hash = "sha256:6cff27cec936bf81dc5ee87f07132b807bcda51106b5ec4b90a04331cba76231"},
 ]
 python-dateutil = [
     {file = "python-dateutil-2.8.2.tar.gz", hash = "sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86"},
