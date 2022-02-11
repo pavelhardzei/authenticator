@@ -2,10 +2,10 @@ from unittest.mock import ANY
 
 
 def test_signup(api_client):
-    response = api_client.post('/user/signup/', json={'email': 'test1@test.org', 'username': 'test',
+    response = api_client.post('/user/signup/', json={'email': 'test@test.org', 'username': 'test',
                                                       'password': 'testing321'})
     assert response.status_code == 201
-    assert response.json == {'id': ANY, 'email': 'test1@test.org', 'username': 'test'}
+    assert response.json == {'id': ANY, 'email': 'test@test.org', 'username': 'test'}
 
 
 def test_signin(api_client, user1):

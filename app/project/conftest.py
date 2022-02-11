@@ -21,10 +21,15 @@ def connection():
 def session(connection):
     transaction = connection.begin()
     session = scoped_session(sessionmaker(bind=connection))
-
     session_backup = db.session
+
     db.session = session
     UserFactory._meta.sqlalchemy_session = db.session
+
+    for table in reversed(db.metadata.sorted_tables):
+        db.session.execute(table.delete())
+    db.session.commit()
+
     yield
 
     db.session = session_backup
