@@ -9,4 +9,4 @@ register(UserFactory, 'user2')
 register(ApplicationFactory, 'app1_user1', name='app1', user_profile=LazyFixture('user1'))
 register(ApplicationFactory, 'app2_user1', name='app2', user_profile=LazyFixture('user1'))
 
-register(ApplicationFactory, 'app1_user2', user_profile=LazyFixture('user2'))
+register(ApplicationFactory, 'app1_user2', secret='base32secret', user_profile=LazyFixture('user2'))
