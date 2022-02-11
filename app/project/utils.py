@@ -1,7 +1,7 @@
 from functools import wraps
 
 import jwt
-from flask import jsonify, request
+from flask import request
 from project import app
 from users.models import UserProfile
 
@@ -12,9 +12,9 @@ def token_required(f):
         token = request.headers.get('Authorization')
 
         if not token:
-            return jsonify({'message': 'Token is required'})
+            return {'message': 'Token is required'}, 400
         if len(token.split(' ')) != 2 or token.split(' ')[0] != 'Token':
-            return jsonify({'message': 'Required format: Token <your_token>'})
+            return {'message': 'Required format: Token <your_token>'}, 400
 
         try:
             token = token.split(' ')[1]
@@ -23,7 +23,7 @@ def token_required(f):
 
             kwargs['user'] = user
         except Exception as e:
-            return jsonify({'message': f'{e}'})
+            return {'message': f'{e}'}, 400
 
         return f(*args, **kwargs)
 
