@@ -63,10 +63,8 @@ class ApplicationDetail(Resource):
         return application
 
     def check_permissions(self, user, obj):
-        if obj is None:
+        if obj is None or obj.user_id != user.id:
             raise LogicError(404, 'Resource not found')
-        if obj.user_id != user.id:
-            raise LogicError(403, 'Forbidden')
 
 
 class ApplicationCode(Resource):
@@ -77,10 +75,8 @@ class ApplicationCode(Resource):
         user = kwargs['user']
         application = Application.query.filter_by(id=kwargs['id']).first()
 
-        if application is None:
-            raise LogicError(404, 'Resource not found')
-        if application.user_id != user.id:
-            raise LogicError(403, 'Forbidden')
+        if application is None or application.user_id != user.id:
+            return {'message': 'Resource not found'}, 404
 
         totp = pyotp.TOTP(application.secret)
 
