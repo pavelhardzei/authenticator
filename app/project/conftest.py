@@ -1,3 +1,4 @@
+import jwt
 import pytest
 from project import app, db
 from sqlalchemy.orm import sessionmaker
@@ -8,6 +9,16 @@ from users.factories import UserFactory
 @pytest.fixture
 def api_client():
     yield app.test_client()
+
+
+@pytest.fixture
+def token_user1(user1):
+    return jwt.encode({'id': user1.id}, app.config['SECRET_KEY'], algorithm='HS256')
+
+
+@pytest.fixture
+def token_user2(user2):
+    return jwt.encode({'id': user2.id}, app.config['SECRET_KEY'], algorithm='HS256')
 
 
 @pytest.fixture(scope='module')
