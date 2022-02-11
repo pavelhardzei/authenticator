@@ -1,5 +1,6 @@
 import jwt
 import pytest
+from applications.factories import ApplicationFactory
 from project import app, db
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.scoping import scoped_session
@@ -36,6 +37,7 @@ def session(connection):
 
     db.session = session
     UserFactory._meta.sqlalchemy_session = db.session
+    ApplicationFactory._meta.sqlalchemy_session = db.session
 
     for table in reversed(db.metadata.sorted_tables):
         db.session.execute(table.delete())
