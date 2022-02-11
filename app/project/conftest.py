@@ -1,9 +1,9 @@
 import jwt
 import pytest
-from applications.factories import ApplicationFactory
 from project import app, db
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.scoping import scoped_session
+from applications.factories import ApplicationFactory
 from users.factories import UserFactory
 
 

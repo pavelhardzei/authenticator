@@ -1,6 +1,6 @@
-from applications.factories import ApplicationFactory
 from project.conftest import api_client, connection, session, token_user1, token_user2
 from pytest_factoryboy import LazyFixture, register
+from applications.factories import ApplicationFactory
 from users.factories import UserFactory
 
 register(UserFactory, 'user1')
