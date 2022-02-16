@@ -1,7 +1,8 @@
 from functools import wraps
+from http import HTTPStatus
 
 import jwt
-from flask import jsonify, request
+from flask import request
 from project import app
 from users.models import UserProfile
 
@@ -12,18 +13,18 @@ def token_required(f):
         token = request.headers.get('Authorization')
 
         if not token:
-            return jsonify({'message': 'Token is required'})
+            return {'message': 'Token is required'}, HTTPStatus.UNAUTHORIZED
         if len(token.split(' ')) != 2 or token.split(' ')[0] != 'Token':
-            return jsonify({'message': 'Required format: Token <your_token>'})
+            return {'message': 'Required format: Token <your_token>'}, HTTPStatus.BAD_REQUEST
 
-        try:
-            token = token.split(' ')[1]
-            data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
-            user = UserProfile.query.filter_by(id=data['id']).first()
+        token = token.split(' ')[1]
+        data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
 
-            kwargs['user'] = user
-        except Exception as e:
-            return jsonify({'message': f'{e}'})
+        user = UserProfile.query.filter_by(id=data['id']).first()
+        if user is None:
+            return {'message': 'User not found'}, HTTPStatus.UNAUTHORIZED
+
+        kwargs['user'] = user
 
         return f(*args, **kwargs)
 
