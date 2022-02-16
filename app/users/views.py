@@ -65,7 +65,7 @@ class UserDetail(Resource):
         user = kwargs['user']
         user.delete()
 
-        return {'message': 'No content'}, 204
+        return {}, 204
 
 
 api.add_resource(UserDetail, '/')

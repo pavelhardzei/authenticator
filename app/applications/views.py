@@ -42,7 +42,7 @@ class ApplicationDetail(Resource):
         application = self.get_object(*args, **kwargs)
         application.delete()
 
-        return {'message': 'No content'}, 204
+        return {}, 204
 
     @token_required
     def put(self, *args, **kwargs):
