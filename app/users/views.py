@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from http import HTTPStatus
 
 import jwt
 from flask import Blueprint, request
@@ -21,7 +22,7 @@ class UserSignup(Resource):
 
         user.save()
 
-        return self.schema.dump(user), 201
+        return self.schema.dump(user), HTTPStatus.CREATED
 
 
 class UserSignin(Resource):
@@ -65,7 +66,7 @@ class UserDetail(Resource):
         user = kwargs['user']
         user.delete()
 
-        return {'message': 'No content'}, 204
+        return {}, HTTPStatus.NO_CONTENT
 
 
 api.add_resource(UserDetail, '/')

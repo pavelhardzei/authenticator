@@ -1,4 +1,5 @@
 from functools import wraps
+from http import HTTPStatus
 
 import jwt
 from flask import request
@@ -12,18 +13,18 @@ def token_required(f):
         token = request.headers.get('Authorization')
 
         if not token:
-            return {'message': 'Token is required'}, 400
+            return {'message': 'Token is required'}, HTTPStatus.UNAUTHORIZED
         if len(token.split(' ')) != 2 or token.split(' ')[0] != 'Token':
-            return {'message': 'Required format: Token <your_token>'}, 400
+            return {'message': 'Required format: Token <your_token>'}, HTTPStatus.BAD_REQUEST
 
-        try:
-            token = token.split(' ')[1]
-            data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
-            user = UserProfile.query.filter_by(id=data['id']).first()
+        token = token.split(' ')[1]
+        data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
 
-            kwargs['user'] = user
-        except Exception as e:
-            return {'message': f'{e}'}, 400
+        user = UserProfile.query.filter_by(id=data['id']).first()
+        if user is None:
+            return {'message': 'User not found'}, HTTPStatus.UNAUTHORIZED
+
+        kwargs['user'] = user
 
         return f(*args, **kwargs)
 

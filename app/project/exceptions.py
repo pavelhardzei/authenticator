@@ -1,8 +1,10 @@
+from http import HTTPStatus
+
 from werkzeug.exceptions import HTTPException
 
 
 class LogicError(HTTPException):
-    code = 500
+    code = HTTPStatus.INTERNAL_SERVER_ERROR
     description = 'Server error'
 
     def __init__(self, code=None, description=None):
