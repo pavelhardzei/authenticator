@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 import pyotp
 from applications.models import Application
 from applications.schemas import ApplicationSchema, TotpSchema
@@ -27,7 +29,7 @@ class ApplicationList(Resource):
         application.user_id = user.id
         application.save()
 
-        return self.schema.dump(application), 201
+        return self.schema.dump(application), HTTPStatus.CREATED
 
 
 class ApplicationDetail(Resource):
@@ -42,7 +44,7 @@ class ApplicationDetail(Resource):
         application = self.get_object(*args, **kwargs)
         application.delete()
 
-        return {}, 204
+        return {}, HTTPStatus.NO_CONTENT
 
     @token_required
     def put(self, *args, **kwargs):
@@ -64,9 +66,9 @@ class ApplicationDetail(Resource):
 
     def check_permissions(self, user, obj):
         if obj is None:
-            raise LogicError(404, 'Resource not found')
+            raise LogicError(HTTPStatus.NOT_FOUND, 'Resource not found')
         if obj.user_id != user.id:
-            raise LogicError(403, 'Forbidden')
+            raise LogicError(HTTPStatus.FORBIDDEN, 'Forbidden')
 
 
 class ApplicationCode(Resource):
@@ -78,9 +80,9 @@ class ApplicationCode(Resource):
         application = Application.query.filter_by(id=kwargs['id']).first()
 
         if application is None:
-            raise LogicError(404, 'Resource not found')
+            raise LogicError(HTTPStatus.NOT_FOUND, 'Resource not found')
         if application.user_id != user.id:
-            raise LogicError(403, 'Forbidden')
+            raise LogicError(HTTPStatus.FORBIDDEN, 'Forbidden')
 
         totp = pyotp.TOTP(application.secret)
 
