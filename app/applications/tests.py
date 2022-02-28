@@ -1,7 +1,9 @@
+import datetime
 from http import HTTPStatus
 from unittest.mock import ANY
 
 import pyotp
+from freezegun import freeze_time
 
 
 def test_application_list(api_client, token_user1, app1_user1, app2_user1):
@@ -46,3 +48,14 @@ def test_application_code(api_client, token_user2, app1_user2):
                               headers={'Authorization': f'Token {token_user2}'})
     assert response.status_code == HTTPStatus.OK
     assert response.json == {'totp': pyotp.TOTP('base32secret').now()}
+
+
+def test_application_code_expired(api_client, token_user2, app1_user2):
+    response = api_client.get(f'/application/{app1_user2.id}/code/',
+                              headers={'Authorization': f'Token {token_user2}'})
+    assert response.status_code == HTTPStatus.OK
+
+    freezer = freeze_time(lambda: datetime.datetime.now() + datetime.timedelta(seconds=30))
+    freezer.start()
+    assert response.json['totp'] != pyotp.TOTP('base32secret').now()
+    freezer.stop()
