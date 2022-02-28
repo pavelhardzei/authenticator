@@ -13,8 +13,10 @@ ma = Marshmallow(app)
 migrate = Migrate(app, db, compare_type=True)
 
 
+from applications.views import app as applications_app
 from users.views import app as users_app
 
+app.register_blueprint(applications_app, url_prefix='/application')
 app.register_blueprint(users_app, url_prefix='/user')
 
 app.register_error_handler(Exception, handle_error)
