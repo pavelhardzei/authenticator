@@ -37,7 +37,7 @@ def test_user_put(api_client, token_user1):
 def test_user_invalid_put(api_client, token_user1):
     response = api_client.put('/user/', headers={'Authorization': f'Token {token_user1}'},
                               json={'email': 'new@gmail.com', 'username': 'new', 'password': 'testing321'})
-    assert response.status_code == HTTPStatus.BAD_REQUEST
+    assert response.status_code == HTTPStatus.INTERNAL_SERVER_ERROR
     assert response.json == {'message': [{'password': ['Unknown field.']}]}
 
 
