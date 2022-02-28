@@ -17,15 +17,5 @@ class UserProfile(db.Model, DbMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-    def set_password(self, password):
-        self.password = generate_password_hash(password, method='sha256')
-
-    def check_password(self, password):
-        return check_password_hash(self.password, password)
-
-    def save(self):
-        db.session.add(self)
-        db.session.commit()
-
     def __repr__(self):
         return f'User({self.email})'
