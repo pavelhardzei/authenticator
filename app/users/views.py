@@ -66,7 +66,7 @@ class UserDetail(Resource):
         user = kwargs['user']
         user.delete()
 
-        return {}, HTTPStatus.NO_CONTENT
+        return None, HTTPStatus.NO_CONTENT
 
 
 api.add_resource(UserDetail, '/')

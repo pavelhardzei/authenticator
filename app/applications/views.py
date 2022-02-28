@@ -44,7 +44,7 @@ class ApplicationDetail(Resource):
         application = self.get_object(*args, **kwargs)
         application.delete()
 
-        return {}, HTTPStatus.NO_CONTENT
+        return None, HTTPStatus.NO_CONTENT
 
     @token_required
     def put(self, *args, **kwargs):
